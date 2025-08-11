@@ -1,0 +1,6 @@
+@connectOracleDBTest_HostAddress = http://localhost:5032
+
+GET {{connectOracleDBTest_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
