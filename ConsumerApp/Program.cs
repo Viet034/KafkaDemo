@@ -25,7 +25,7 @@ class ConsumerApp
             while (true)
             {
                 var consumerResult = consumer.Consume(CancellationToken.None);
-                Console.WriteLine($"Consumer: {consumerResult.Partition}, Offset: {consumerResult.Offset} ");
+                Console.WriteLine($"Consumer: {consumerResult.Partition}, Offset: {consumerResult.Offset}  ");
             }
         }
         catch (Exception ex)
