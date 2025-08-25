@@ -1,6 +1,25 @@
+using connectOracleDBTest.Data;
+using connectOracleDBTest.Mapper;
+using connectOracleDBTest.Mapper.Implementation;
+using connectOracleDBTest.Services;
+using connectOracleDBTest.Services.Implementation;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var connect = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseOracle(connect));
+builder.Services.AddScoped<ICustomerMapper, CustomerMapper>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IProductMapper, ProductMapper>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IOrderMapper, OrderMapper>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IProducerService, ProducerService>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -17,15 +17,17 @@ class ConsumerApp
             {
                 BootstrapServers = "localhost:9092",
                 GroupId = "demo-topic",
+                //GroupId = "test-round-robin",
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
             using var consumer = new ConsumerBuilder<string, string>(config).Build();
             consumer.Subscribe("demo-topic");
+            //consumer.Subscribe("test-round-robin");
             Console.WriteLine("Consumer is listening......");
             while (true)
             {
                 var consumerResult = consumer.Consume(CancellationToken.None);
-                Console.WriteLine($"Consumer: {consumerResult.Partition}, Offset: {consumerResult.Offset} ");
+                Console.WriteLine($"Consumer: {consumerResult.Partition}, Offset: {consumerResult.Offset}  ");
             }
         }
         catch (Exception ex)
