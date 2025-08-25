@@ -20,6 +20,13 @@ builder.Services.AddScoped<IOrderMapper, OrderMapper>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IProducerService, ProducerService>();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
