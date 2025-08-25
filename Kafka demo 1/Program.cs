@@ -26,6 +26,7 @@ public class ProducerApp
 
                 var message = new Message<string, string> {Key = key, Value = messageValue };
                 var result = await producer.ProduceAsync("demo-topic", message);
+                //var result = await producer.ProduceAsync("test-round-robin", message);
                 Console.WriteLine($"Message belongs to Partition: {result.Partition}, Index Offset :{result.Offset}");
             }
             catch (Exception ex)
