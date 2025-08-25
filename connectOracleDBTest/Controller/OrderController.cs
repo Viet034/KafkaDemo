@@ -3,6 +3,7 @@ using connectOracleDBTest.Models.DTO.RequestDTO;
 using connectOracleDBTest.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using static connectOracleDBTest.Ultilites.Status;
 
 namespace connectOracleDBTest.Controller;
 [Route("api/[controller]")]
@@ -16,9 +17,9 @@ public class OrderController : ControllerBase
         _service = service;
     }
     /// <summary>
-    /// Tạo hóa đơn
+    /// Tạo hóa đơn mới
     /// </summary>
-    /// <param name="create"></param>
+    /// <param name="create"> Truyền vào các tham số </param>
     /// <returns> </returns>
     [HttpPost("create-order")]
     [ProducesResponseType(typeof(IEnumerable<Order>), (int)HttpStatusCode.OK)]
@@ -52,4 +53,21 @@ public class OrderController : ControllerBase
             return BadRequest(ex.ToString());
         }
     }
+
+    [HttpPut("cahnge")]
+    [ProducesResponseType(typeof(IEnumerable<Order>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> ChangeStatus(int id, OrderStatus orderStatus)
+    {
+        try
+        {
+            var response = await _service.ChangeOrderStatusAsync(id, orderStatus);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.ToString());
+        }
+    }
+
 }

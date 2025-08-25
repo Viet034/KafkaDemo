@@ -24,9 +24,14 @@ public class OrderService : IOrderService
         _producer = producer;
     }
      
-    public Task<OrderResponseDTO> ChangeOrderStatusAsync(int id, Status.OrderStatus newStatus)
+    public async Task<OrderResponseDTO> ChangeOrderStatusAsync(int id, Status.OrderStatus newStatus)
     {
-        throw new NotImplementedException();
+        var or = await _context.Orders.FindAsync(id)
+            ?? throw new KeyNotFoundException($"Không tìm thấy {id}");
+        or.Status = newStatus;
+        _ = await _context.SaveChangesAsync();
+        var response = _mapper.EntityToResponse(or);
+        return response;
     }
 
     public Task<string> CheckUniqueCodeAsync()
