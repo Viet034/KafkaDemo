@@ -4,10 +4,10 @@ namespace connectOracleDBTest.Models.DTO.RequestDTO;
 
 public class OrderCreateDTO
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public double TotalAmount { get; set; }
     public OrderStatus Status { get; set; }
-    public int CustomerId { get; set; }
-    public int ProductId { get; set; }
+    public string CustomerId { get; set; }
+    public string ProductId { get; set; }
 
 }

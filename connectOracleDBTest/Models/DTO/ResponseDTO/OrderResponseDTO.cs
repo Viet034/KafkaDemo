@@ -4,10 +4,10 @@ namespace connectOracleDBTest.Models.DTO.ResponseDTO;
 
 public class OrderResponseDTO
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public double TotalAmount { get; set; }
     public OrderStatus Status { get; set; }
-    public int CustomerId { get; set; }
-    public int ProductId { get; set; }
+    public string CustomerId { get; set; }
+    public string ProductId { get; set; }
 
 }

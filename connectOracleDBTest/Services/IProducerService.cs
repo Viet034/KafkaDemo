@@ -4,5 +4,5 @@ namespace connectOracleDBTest.Services;
 
 public interface IProducerService
 {
-    Task<DeliveryResult<int, string>> ProducerKafka<T>(string topic, int key, T message);
+    Task<DeliveryResult<string, string>> ProducerKafka<T>(string topic, string key, T message);
 }

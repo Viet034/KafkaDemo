@@ -24,7 +24,7 @@ public class CustomerController : ControllerBase
     {
         try
         {
-            var response = await _service.CreateCustomerAsync(create);
+            var response = await _service.CreateCustomerProducerAsync(create);
             return Ok(response);
         }
         catch (Exception ex)

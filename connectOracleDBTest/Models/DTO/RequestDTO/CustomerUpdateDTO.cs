@@ -4,7 +4,7 @@ namespace connectOracleDBTest.Models.DTO.RequestDTO;
 
 public class CustomerUpdateDTO
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public string Name { get; set; }
     public string Phone { get; set; }
     public Gender Gender { get; set; }
