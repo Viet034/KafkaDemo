@@ -3,9 +3,9 @@ namespace connectOracleDBTest.Services.Implementation;
 
 public class ProducerService : IProducerService
 {
-    private readonly IProducer<int, string> _producer;
+    private readonly IProducer<string, string> _producer;
 
-    public ProducerService(IProducer<int, string> producer)
+    public ProducerService(IProducer<string, string> producer)
     {
         _producer = producer;
     }
@@ -16,14 +16,14 @@ public class ProducerService : IProducerService
         {
             BootstrapServers = config["Kafka:BootstrapServers"]
         };
-         _producer = new ProducerBuilder<int, string>(configs).Build();
+         _producer = new ProducerBuilder<string, string>(configs).Build();
     }
-    public async Task<DeliveryResult<int, string>> ProducerKafka<T>(string topic, int key, T message)
+    public async Task<DeliveryResult<string, string>> ProducerKafka<T>(string topic, string key, T message)
     {
         try
         {
             var value = System.Text.Json.JsonSerializer.Serialize(message);
-            var result = await _producer.ProduceAsync(topic, new Message<int, string>
+            var result = await _producer.ProduceAsync(topic, new Message<string, string>
             {
                 Key = key,
                 Value = value

@@ -28,9 +28,11 @@ public class ProductService : IProductService
     {
         var topic = "ProductCreated";
         var result = await _producer.ProducerKafka<ProductCreateDTO>(topic, create.Id, create);
+
         Product product = _mapper.CreateToEntity(create);
         product.Offset = result.Offset;
         product.Partition = result.Partition;
+
         await _context.Products.AddAsync(product);
         await _context.SaveChangesAsync();
         var response = _mapper.EntityToResponse(product);

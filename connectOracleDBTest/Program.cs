@@ -3,6 +3,8 @@ using connectOracleDBTest.Mapper;
 using connectOracleDBTest.Mapper.Implementation;
 using connectOracleDBTest.Services;
 using connectOracleDBTest.Services.Implementation;
+using connectOracleDBTest.Ultilites;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IOrderMapper, OrderMapper>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IProducerService, ProducerService>();
+//builder.Services.AddScoped<OrderProducer>();
+builder.Services.AddHostedService<OrderCreatedConsumer>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -27,6 +31,8 @@ builder.Services.AddSwaggerGen(c =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 });
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

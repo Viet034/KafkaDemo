@@ -29,7 +29,7 @@ public class OrderController : ControllerBase
     {
         try
         {
-            var response = await _service.CreateOrderAsync(create);
+            var response = await _service.CreateOrderProducerAsync(create);
             return Ok(response);
         }
         catch (Exception ex)

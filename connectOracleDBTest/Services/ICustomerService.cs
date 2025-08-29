@@ -7,12 +7,9 @@ namespace connectOracleDBTest.Services;
 public interface ICustomerService
 {
     public Task<IEnumerable<CustomerResponseDTO>> GetAllCustomerAsync();
-    public Task<IEnumerable<CustomerResponseDTO>> SearchCustomerByKeyAsync(string key);
-    public Task<CustomerResponseDTO> UpdateCustomerAsync(int id, CustomerUpdateDTO update);
-    public Task<CustomerResponseDTO> CreateCustomerAsync(CustomerCreateDTO create);
-    public Task<bool> HardDeleteCustomerAsync(int id);
 
-    public Task<CustomerResponseDTO> ChangeGenderAsync(int id, Gender newStatus);
-    public Task<CustomerResponseDTO> FindCustomerByIdAsync(int id);
-    public Task<string> CheckUniqueCodeAsync();
+    public Task<CustomerResponseDTO> UpdateCustomerAsync(string id, CustomerUpdateDTO update);
+    public Task<CustomerResponseDTO> CreateCustomerAsync(CustomerCreateDTO create, long offset, int partition);
+    public Task<bool> CreateCustomerProducerAsync(CustomerCreateDTO create);
+
 }

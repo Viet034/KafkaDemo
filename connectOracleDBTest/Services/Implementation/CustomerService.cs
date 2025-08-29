@@ -21,21 +21,6 @@ public class CustomerService : ICustomerService
         _producer = producer;
     }
 
-    public async Task<CustomerResponseDTO> ChangeGenderAsync(int id, Status.Gender newStatus)
-    {
-        var cuId = await _context.Customers.FirstOrDefaultAsync(c => c.Id == id)
-            ?? throw new KeyNotFoundException($"Không tồn tại key {id}");
-        cuId.Gender = newStatus;
-
-        await _context.SaveChangesAsync();
-        var response = _mapper.EntityToResponse(cuId);
-        return response;
-    }
-
-    public Task<string> CheckUniqueCodeAsync()
-    {
-        throw new NotImplementedException();
-    }
 
     public async Task<CustomerResponseDTO> CreateCustomerAsync(CustomerCreateDTO create)
     {
@@ -52,9 +37,27 @@ public class CustomerService : ICustomerService
 
     }
 
-    public Task<CustomerResponseDTO> FindCustomerByIdAsync(int id)
+    public async Task<CustomerResponseDTO> CreateCustomerAsync(CustomerCreateDTO create, long offset, int partition)
     {
-        throw new NotImplementedException();
+        Customer customer = _mapper.CreateToEntity(create);
+        customer.Offset = offset;
+        customer.Partition = partition;
+
+        await _context.Customers.AddAsync(customer);
+        await _context.SaveChangesAsync();
+        var response = _mapper.EntityToResponse(customer);
+        return response;
+    }
+
+    public async Task<bool> CreateCustomerProducerAsync(CustomerCreateDTO create)
+    {
+        //Produce message vào topic OrderCreated
+        var topic = "PaymentCreated";
+
+        var result = await _producer.ProducerKafka<CustomerCreateDTO>(topic, create.Id, create);
+        ///
+
+        return true;
     }
 
     public async Task<IEnumerable<CustomerResponseDTO>> GetAllCustomerAsync()
@@ -64,17 +67,8 @@ public class CustomerService : ICustomerService
         return response;
     }
 
-    public Task<bool> HardDeleteCustomerAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
 
-    public Task<IEnumerable<CustomerResponseDTO>> SearchCustomerByKeyAsync(string key)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<CustomerResponseDTO> UpdateCustomerAsync(int id, CustomerUpdateDTO update)
+    public Task<CustomerResponseDTO> UpdateCustomerAsync(string id, CustomerUpdateDTO update)
     {
         throw new NotImplementedException();
     }

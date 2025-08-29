@@ -43,5 +43,5 @@ public class CustomerMapper : ICustomerMapper
         cus.Gender = update.Gender;
         cus.Email = update.Email;
         return cus;
-    }
+    } 
 }
