@@ -22,21 +22,7 @@ public class CustomerService : ICustomerService
     }
 
 
-    public async Task<CustomerResponseDTO> CreateCustomerAsync(CustomerCreateDTO create)
-    {
-        var topic = "CustomerCreated";
-        var result = await _producer.ProducerKafka<CustomerCreateDTO>(topic, create.Id, create);
-        Customer customer = _mapper.CreateToEntity(create);
-        customer.Offset = result.Offset;
-        customer.Partition = result.Partition;
-        
-        await _context.Customers.AddAsync(customer);
-        await _context.SaveChangesAsync();
-        var response = _mapper.EntityToResponse(customer);
-        return response;
-
-    }
-
+    
     public async Task<CustomerResponseDTO> CreateCustomerAsync(CustomerCreateDTO create, long offset, int partition)
     {
         Customer customer = _mapper.CreateToEntity(create);
@@ -52,7 +38,7 @@ public class CustomerService : ICustomerService
     public async Task<bool> CreateCustomerProducerAsync(CustomerCreateDTO create)
     {
         //Produce message vào topic OrderCreated
-        var topic = "PaymentCreated";
+        var topic = "CustomerCreation";
 
         var result = await _producer.ProducerKafka<CustomerCreateDTO>(topic, create.Id, create);
         ///
@@ -68,8 +54,16 @@ public class CustomerService : ICustomerService
     }
 
 
-    public Task<CustomerResponseDTO> UpdateCustomerAsync(string id, CustomerUpdateDTO update)
+    public async Task<CustomerResponseDTO> UpdateCustomerAsync(string id, CustomerUpdateDTO update)
     {
-        throw new NotImplementedException();
+        var cco = await _context.Customers.FindAsync(id)
+            ?? throw new KeyNotFoundException($"Không có {id}");
+        var cus = _mapper.UpdateToEntity(update);
+        cus.Name = update.Name;
+        cus.Phone = update.Phone;
+        cus.Email = update.Email;
+        var response = _mapper.EntityToResponse(cus);
+        return response;
+
     }
 }

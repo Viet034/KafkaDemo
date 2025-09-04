@@ -15,7 +15,8 @@ public abstract class ConsumerGenericService<TKey, TValue> : BackgroundService
         {
             BootstrapServers = configuration["Kafka:BootstrapServers"],
             GroupId = groupId,
-            AutoOffsetReset = AutoOffsetReset.Earliest
+            AutoOffsetReset = AutoOffsetReset.Earliest,
+            EnableAutoCommit = false
         };
     }
 
@@ -50,7 +51,6 @@ public abstract class ConsumerGenericService<TKey, TValue> : BackgroundService
                 {
                     Console.WriteLine($"Lỗi: {ex.ToString()}");
                     consumer.Commit(cr);
-
                 }
                 
             }
