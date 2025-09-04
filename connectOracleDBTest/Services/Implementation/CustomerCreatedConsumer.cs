@@ -7,7 +7,7 @@ public class CustomerCreatedConsumer : ConsumerGenericService<string, CustomerCr
     private readonly IServiceScopeFactory _scope;
 
     public CustomerCreatedConsumer(IConfiguration config, IServiceScopeFactory scope)
-        : base(config, "CustomerCreated", "CustomerCreatedId")
+        : base(config, "CustomerCreation", "CustomerCreationId")
     {
         _scope = scope;
 
@@ -19,5 +19,6 @@ public class CustomerCreatedConsumer : ConsumerGenericService<string, CustomerCr
         var service = scope.ServiceProvider.GetRequiredService<ICustomerService>();
         await service.CreateCustomerAsync(value, offset, partition);
         await Task.CompletedTask;
+
     }
 }

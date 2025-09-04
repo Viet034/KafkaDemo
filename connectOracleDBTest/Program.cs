@@ -23,6 +23,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IProducerService, ProducerService>();
 //builder.Services.AddScoped<OrderProducer>();
 builder.Services.AddHostedService<OrderCreatedConsumer>();
+builder.Services.AddHostedService<CustomerCreatedConsumer>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

@@ -31,8 +31,7 @@ public class ProducerService : IProducerService
 
             Console.WriteLine(result.TopicPartitionOffset.Partition);
             Console.WriteLine(result.TopicPartitionOffset.Offset);
-            
-          
+
             return result;
         }
         catch (Exception ex)
